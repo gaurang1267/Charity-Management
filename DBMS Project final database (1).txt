@@ -1,0 +1,342 @@
+create table NGO_Employee (
+
+id varchar(15),
+first_name varchar(10),
+last_name varchar(15),
+age smallint,
+phone_number bigint,
+task varchar(15),
+primary key(id)
+
+);
+
+insert into NGO_Employee
+values ("C-101","Udit","Tomar",20,9876543210,"Collector"),
+("C-102","Kshitij","Gupta",19,9956488239,"Collector"),
+("C-103","Pranav","Pawar",20,7275488239,"Collector"),
+("C-104","Harsh","Vaidh",18,8604995623,"Collector"),
+("C-105","Ayan","Nafees",21,7840565678,"Collector"),
+("C-106","Gaurang","Sondur",18,9998887776,"Collector");
+
+insert into NGO_Employee
+values 
+("D-101","Hardik","Mehta",20,6303643210,"Distributor"),
+("D-102","Akash","Gupta",21,8604818239,"Distributor"),
+("D-103","Ankit","Singh",20,8790565678,"Distributor"),
+("D-104","Harsh","Sharma",19,8604995648,"Distributor"),
+("D-105","Shivam","Singh",21,7840888878,"Distributor"),
+("D-106","Aditya","Pandey",19,6362559987,"Distributor"),
+
+("M-101","Dhruv","Sangvi",20,9044567890,"Manager"),
+("M-102","Ayush","Rakesh",19,8678561230,"Manager"),
+("M-103","Yash","Nigam",18,9976123450,"Manager");
+
+
+
+alter table ngo_employee drop column phone_number;
+
+
+
+create table Employee_phone_number 
+(
+id varchar(15),
+phone_number bigint,
+primary key(id,phone_number),
+foreign key(id) references NGO_Employee(id)
+);
+
+insert into Employee_phone_number 
+values 
+("C-101",9876543210),
+("C-102",9956488239),
+("C-102",6784561234),
+("C-103",7275488239),
+("C-104",8604995623),
+("C-105",7840565678),
+("C-106",9998887776),
+("C-106",9044882345),
+
+
+("D-101",6303643210),
+("D-101",6303619244),
+("D-102",8604818239),
+("D-103",8790565678),
+("D-104",8604995648),
+("D-104",8604994645),
+("D-105",7840888878),
+("D-106",6362559987),
+
+("M-101",9044567890),
+("M-102",8678561230),
+("M-102",9235849192),
+("M-103",9976123450);
+
+
+
+
+
+create table collector (
+id varchar(15),
+location varchar(25),
+foreign key(id) references NGO_Employee(id),
+primary key(location)
+);
+
+
+
+insert into collector
+values ("C-101","Lashkar"),
+("C-102","City Center"),
+("C-103","Tansen Nagar"),
+("C-104","DD Nagar"),
+("C-105","Morena"),
+("C-106","Gola Ka Mandir");
+
+create table donator (
+did varchar(10),
+emp_id varchar(15),
+location varchar(20),
+fname varchar(15),
+lname varchar(15),
+primary key(did),
+foreign key(emp_id) references collector(id)
+);
+
+
+insert into donator 
+values
+("Don-101","C-101","Lashkar","Hardik","Mehta"),
+("Don-102","C-101","Lashkar","Sakshi","Kulkarni"),
+("Don-103","C-102","City Center","Rupali","Das"),
+("Don-104","C-102","City Center","Aman","Tiwari"),
+("Don-105","C-103","Tansen Nagar","Apoorv","Jain"),
+("Don-106","C-103","Tansen Nagar","Mridul","Gupta"),
+("Don-107","C-104","DD Nagar","Shubham","Kumar"),
+("Don-108","C-104","DD Nagar","Akshat","Jain"),
+("Don-109","C-105","Morena","Yash","Nigam"),
+("Don-110","C-105","Morena","Yash","Nigam"),
+("Don-111","C-106","Gola Ka Mandir","Yash","Nigam"),
+("Don-112","C-106","Gola Ka Mandir","Shouvik","Dey");
+
+
+
+create table donator_phone_no (
+did varchar(10),
+phone_no bigint,
+primary key(did,phone_no),
+foreign key(did) references donator(did)
+);
+
+insert into donator_phone_no 
+values
+("Don-101",8887776665),
+("Don-102",8887776888),
+("Don-103",9997776665),
+("Don-104",8881116665),
+("Don-105",7275345610),
+("Don-105",9044756512),
+("Don-106",8604556677),
+("Don-107",6366124555),
+("Don-108",7869012345),
+("Don-108",9956781234),
+("Don-109",8907651234),
+("Don-110",7689435611),
+("Don-111",9671254678),
+("Don-112",9235849192);
+
+
+
+
+create table fund_donation (
+did varchar(10),
+type varchar(15),
+fund_in_ruppees int,
+primary key (did,type,fund_in_ruppees),
+foreign key(did) references donator(did) 
+);
+
+
+
+insert into fund_donation
+values
+("Don-101","Cash",1000),
+("Don-102","UPI",500),
+("Don-103","Cheque",5000),
+("Don-104","Cash",2500),
+("Don-105","UPI",2000),
+("Don-106","UPI",1500),
+("Don-107","Cash",2500);
+
+
+
+
+
+
+create table grain_donation (
+did varchar(10),
+type varchar(15),
+quantity varchar(15),
+primary key (did,type,quantity),
+foreign key(did) references donator(did) 
+);
+
+
+insert into grain_donation
+values
+("Don-107","Rice","10 Kg"),
+("Don-107","Rice","25 Kg"),
+("Don-108","Wheat","50 Kg"),
+("Don-109","Wheat","20 Kg"),
+("Don-110","Pulses","10 Kg"),
+("Don-111","Pulses","15 Kg"),
+("Don-112","Rice","50 Kg"),
+("Don-106","Wheat","25 Kg"),
+("Don-103","Wheat","10 Kg");
+
+
+
+
+
+
+
+create table sanctioner
+( 
+emp_id varchar(15),
+form_id int,
+status varchar(12),
+primary key(form_id),
+foreign key(emp_id) references NGO_employee(id)
+);
+
+
+insert into sanctioner 
+values 
+("M-101",12345,"Approved"),
+("M-101",67890,"Rejected"),
+("M-102",32145,"Approved"),
+("M-102",76589,"Rejected"),
+("M-103",21213,"Approved"),
+("M-103",56123,"Approved"),
+("M-101",87909,"Rejected"),
+("M-101",43789,"Approved"),
+("M-102",98706,"Rejected"),
+("M-102",45645,"Approved"),
+("M-103",67345,"Approved"),
+("M-103",99876,"Approved");
+
+
+
+
+
+
+
+create table orphanage (
+orphanage_id varchar(15),
+name varchar(20),
+location varchar(20),
+number_of_children int,
+batch_no int,
+form_id int,
+primary key(orphanage_id),
+foreign key (form_id) references sanctioner(form_id)
+);
+
+
+
+insert into orphanage
+values
+("O-101","Sweet Home","Lashkar",255,1234,12345),
+("O-102","Pragati","Lashkar",200,1233,67890),
+("O-103","Ujjwal","City Center",500,1235,32145),
+("O-104","Happiness","City Center",100,1236,76589),
+("O-105","Kind Home","Gola ka Mandir",150,1237,21213),
+("O-106","Ujjivan","Gola Ka Mandir",300,1238,56123),
+("O-107","Asha","DD Nagar",250,1239,87909),
+("O-108","Nayi Kirana","DD Nagar",200,1239,43789),
+("O-109","Mother Teresa","Tansen Nagar",450,1232,98706),
+("O-110","Vishwas","Tansen Nagar",120,1231,45645),
+("O-111","Bal Kendra","Morena",240,1230,67345),
+("O-112","Vikas Ashram","Morena",400,1229,99876);
+
+
+
+
+
+
+
+create table distributor (
+
+emp_id varchar(15),
+location varchar(20),
+batch_no int,
+primary key(batch_no),
+foreign key(emp_id) references ngo_employee(id)
+);
+
+
+
+insert into distributor
+values 
+("D-101","Lashkar",1234),
+("D-102","Lashkar",1233),
+("D-103","City Center",1235),
+("D-104","City Center",1236),
+("D-105","DD Nagar",12340),
+("D-106","Tansen Nagar",1232),
+("D-102","Morena",1229),
+("D-104","Morena",1230),
+("D-102","Gola Ka Mandir",1238),
+("D-102","DD Nagar",1239);
+
+
+
+
+
+
+
+
+
+
+
+
+
+Queries   
+
+1) Find all orphanages approved by  the sanctioner.
+
+select * from orphanage natural join sanctioner where status like 'Approved';
+
+
+2) Display all the orphanages whose number of students is greater than the average size of all orphanages.
+
+
+select * from orphanage where number_of_children > (select avg(number_of_children) from orphanage );
+
+
+
+3) Find all the ngo employees whose last name end with 'a' or the first name has exactly five letters..
+
+select * from ngo_employee where last_name like '%a' union select * from ngo_employee where first_name like '_____';
+
+
+4) Display names of all the donators which donated both funds and grains as a donation.
+
+select concat(fname," ",lname) as name
+ from donator
+ where did  in ( select did
+ from fund_donation
+ where did in (select did from grain_donation));
+
+
+5) Find  the ages of the  distributor employee who supplied collections in Lashkar.
+
+
+select * from ngo_employee where id in ( select emp_id from distributor where location like 'Lashkar') ; 
+
+ select sum(age) from ngo_employee where id in ( select emp_id from distributor where location like 'Lashkar');
+
+
+
+
+
+
